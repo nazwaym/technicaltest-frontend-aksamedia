@@ -16,17 +16,17 @@ const handleSubmit = async () => {
   isSaving.value = true
   
   // Simulate slight delay for UX
-  await new Promise(resolve => setTimeout(resolve, 300))
+  await new Promise(resolve => setTimeout(resolve, 600))
   
   authStore.updateProfile({ fullName: fullName.value.trim() })
   
   isSaving.value = false
   showSuccess.value = true
   
-  // Hide success after 3 seconds
+  // Brief delay to show success state before redirecting to dashboard
   setTimeout(() => {
-    showSuccess.value = false
-  }, 3000)
+    router.push('/')
+  }, 800)
 }
 </script>
 

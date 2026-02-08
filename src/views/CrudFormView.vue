@@ -101,30 +101,32 @@ const jabatanOptions = [
 </script>
 
 <template>
-  <div class="animate-fade-in max-w-2xl mx-auto">
+  <div class="animate-fade-in max-w-2xl mx-auto py-4">
     <!-- Header -->
-    <div class="mb-6">
+    <div class="mb-10 animate-fade-in-up">
       <button
         @click="router.back()"
-        class="inline-flex items-center gap-1 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors mb-4"
+        class="inline-flex items-center gap-2 text-sm font-black text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-all mb-6 group active-spring"
       >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        Kembali
+        <div class="w-8 h-8 rounded-lg bg-[var(--color-bg-secondary)] flex items-center justify-center group-hover:bg-[var(--color-accent)] group-hover:text-white transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+          </svg>
+        </div>
+        KEMBALI
       </button>
-      <h1 class="text-2xl font-bold text-[var(--color-text-primary)]">{{ pageTitle }}</h1>
-      <p class="text-[var(--color-text-secondary)] mt-1">
-        {{ isEditing ? 'Perbarui informasi karyawan' : 'Isi data karyawan baru' }}
+      <h1 class="text-3xl font-black text-[var(--color-text-primary)] tracking-tight">{{ pageTitle }}</h1>
+      <p class="text-[var(--color-text-secondary)] mt-1.5 font-medium">
+        {{ isEditing ? 'Perbarui informasi detail karyawan Anda' : 'Lengkapi data untuk menambahkan karyawan baru' }}
       </p>
     </div>
     
     <!-- Form Card -->
-    <div class="bg-[var(--color-bg-primary)] rounded-xl border border-[var(--color-border)] p-6">
-      <form @submit.prevent="handleSubmit" class="space-y-5">
+    <div class="bg-[var(--color-bg-primary)] rounded-[2.5rem] border border-[var(--color-border)] p-8 sm:p-10 shadow-sm glass animate-fade-in-up" style="animation-delay: 100ms;">
+      <form @submit.prevent="handleSubmit" class="space-y-8">
         <!-- Nama -->
-        <div>
-          <label for="nama" class="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+        <div class="space-y-2">
+          <label for="nama" class="block text-xs font-black text-[var(--color-text-muted)] uppercase tracking-[0.2em] ml-1">
             Nama Lengkap <span class="text-red-500">*</span>
           </label>
           <input
@@ -132,79 +134,87 @@ const jabatanOptions = [
             v-model="form.nama"
             type="text"
             placeholder="Masukkan nama lengkap"
-            class="w-full px-4 py-2.5 bg-[var(--color-bg-secondary)] border rounded-lg text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent transition-all"
-            :class="errors.nama ? 'border-red-500' : 'border-[var(--color-border)]'"
+            class="w-full px-6 py-4 bg-[var(--color-bg-secondary)] border rounded-2xl text-[var(--color-text-primary)] font-bold placeholder-[var(--color-text-muted)] focus:outline-none transition-all"
+            :class="errors.nama ? 'border-red-500 shadow-lg shadow-red-500/10' : 'border-[var(--color-border)]'"
           />
-          <p v-if="errors.nama" class="mt-1 text-sm text-red-500">{{ errors.nama }}</p>
+          <Transition enter-active-class="transition duration-200 ease-out" enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0">
+            <p v-if="errors.nama" class="text-xs font-bold text-red-500 ml-1">{{ errors.nama }}</p>
+          </Transition>
         </div>
         
         <!-- Email -->
-        <div>
-          <label for="email" class="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
-            Email <span class="text-red-500">*</span>
+        <div class="space-y-2">
+          <label for="email" class="block text-xs font-black text-[var(--color-text-muted)] uppercase tracking-[0.2em] ml-1">
+            Email Perusahaan <span class="text-red-500">*</span>
           </label>
           <input
             id="email"
             v-model="form.email"
             type="email"
-            placeholder="contoh@email.com"
-            class="w-full px-4 py-2.5 bg-[var(--color-bg-secondary)] border rounded-lg text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent transition-all"
-            :class="errors.email ? 'border-red-500' : 'border-[var(--color-border)]'"
+            placeholder="contoh@aksamedia.com"
+            class="w-full px-6 py-4 bg-[var(--color-bg-secondary)] border rounded-2xl text-[var(--color-text-primary)] font-bold placeholder-[var(--color-text-muted)] focus:outline-none transition-all"
+            :class="errors.email ? 'border-red-500 shadow-lg shadow-red-500/10' : 'border-[var(--color-border)]'"
           />
-          <p v-if="errors.email" class="mt-1 text-sm text-red-500">{{ errors.email }}</p>
+          <Transition enter-active-class="transition duration-200 ease-out" enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0">
+            <p v-if="errors.email" class="text-xs font-bold text-red-500 ml-1">{{ errors.email }}</p>
+          </Transition>
         </div>
         
         <!-- Jabatan -->
-        <div>
-          <label for="jabatan" class="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+        <div class="space-y-2">
+          <label for="jabatan" class="block text-xs font-black text-[var(--color-text-muted)] uppercase tracking-[0.2em] ml-1">
             Jabatan <span class="text-red-500">*</span>
           </label>
           <select
             id="jabatan"
             v-model="form.jabatan"
-            class="w-full px-4 py-2.5 bg-[var(--color-bg-secondary)] border rounded-lg text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent transition-all"
-            :class="errors.jabatan ? 'border-red-500' : 'border-[var(--color-border)]'"
+            class="w-full px-6 py-4 bg-[var(--color-bg-secondary)] border rounded-2xl text-[var(--color-text-primary)] font-bold focus:outline-none transition-all cursor-pointer"
+            :class="errors.jabatan ? 'border-red-500 shadow-lg shadow-red-500/10' : 'border-[var(--color-border)]'"
           >
             <option value="" disabled>Pilih jabatan</option>
             <option v-for="opt in jabatanOptions" :key="opt" :value="opt">{{ opt }}</option>
           </select>
-          <p v-if="errors.jabatan" class="mt-1 text-sm text-red-500">{{ errors.jabatan }}</p>
+          <Transition enter-active-class="transition duration-200 ease-out" enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0">
+            <p v-if="errors.jabatan" class="text-xs font-bold text-red-500 ml-1">{{ errors.jabatan }}</p>
+          </Transition>
         </div>
         
         <!-- Tanggal Bergabung -->
-        <div>
-          <label for="tanggal" class="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+        <div class="space-y-2">
+          <label for="tanggal" class="block text-xs font-black text-[var(--color-text-muted)] uppercase tracking-[0.2em] ml-1">
             Tanggal Bergabung <span class="text-red-500">*</span>
           </label>
           <input
             id="tanggal"
             v-model="form.tanggalBergabung"
             type="date"
-            class="w-full px-4 py-2.5 bg-[var(--color-bg-secondary)] border rounded-lg text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent transition-all"
-            :class="errors.tanggalBergabung ? 'border-red-500' : 'border-[var(--color-border)]'"
+            class="w-full px-6 py-4 bg-[var(--color-bg-secondary)] border rounded-2xl text-[var(--color-text-primary)] font-bold focus:outline-none transition-all cursor-pointer"
+            :class="errors.tanggalBergabung ? 'border-red-500 shadow-lg shadow-red-500/10' : 'border-[var(--color-border)]'"
           />
-          <p v-if="errors.tanggalBergabung" class="mt-1 text-sm text-red-500">{{ errors.tanggalBergabung }}</p>
+          <Transition enter-active-class="transition duration-200 ease-out" enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0">
+            <p v-if="errors.tanggalBergabung" class="text-xs font-bold text-red-500 ml-1">{{ errors.tanggalBergabung }}</p>
+          </Transition>
         </div>
         
         <!-- Actions -->
-        <div class="flex gap-3 pt-4">
+        <div class="flex flex-col sm:flex-row gap-4 pt-6">
           <button
             type="button"
             @click="router.back()"
-            class="flex-1 px-4 py-2.5 bg-[var(--color-bg-secondary)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-medium rounded-lg hover:bg-[var(--color-bg-tertiary)] transition-colors"
+            class="flex-1 px-6 py-4 bg-[var(--color-bg-secondary)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-[var(--color-bg-tertiary)] transition-all active-spring"
           >
             Batal
           </button>
           <button
             type="submit"
             :disabled="isSubmitting"
-            class="flex-1 px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            class="flex-1 px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-lg shadow-indigo-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 active-spring"
           >
             <svg v-if="isSubmitting" class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            {{ isSubmitting ? 'Menyimpan...' : (isEditing ? 'Perbarui' : 'Simpan') }}
+            {{ isSubmitting ? 'MEMPROSES...' : (isEditing ? 'PERBARUI DATA' : 'SIMPAN DATA') }}
           </button>
         </div>
       </form>
